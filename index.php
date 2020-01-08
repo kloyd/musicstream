@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Kelly Loyd (f418185d)  - Autos DB</title>
+<title>Kelly Loyd Autos DB (f418185d)</title>
 <?php require_once "pdo.php"; ?>
 </head>
 <body>

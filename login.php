@@ -12,19 +12,25 @@ $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';  // Pw is php123
 $failure = false;  // If we have no POST data
 
 // Check to see if we have some POST data, if we do process it
-if ( isset($_POST['email']) && isset($_POST['pass']) ) {
-    if ( strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1 ) {
+if ( isset($_POST['who']) && isset($_POST['pass']) ) {
+  if (strpos($_POST['who'], '@') === false) {
+    $failure = "Email must have an at sign (@).";
+  } else {
+    if ( strlen($_POST['who']) < 1 || strlen($_POST['pass']) < 1 ) {
         $failure = "User name and password are required";
     } else {
         $check = hash('md5', $salt.$_POST['pass']);
         if ( $check == $stored_hash ) {
-            // Redirect the browser to game.php
-            header("Location: autos.php?email=".urlencode($_POST['email']));
+          error_log("Login success ".$_POST['who']);
+            // Redirect the browser to autos.php
+            header("Location: autos.php?who=".urlencode($_POST['who']));
             return;
         } else {
-            $failure = "Incorrect password";
+          error_log("Login fail ".$_POST['who']." $check");
+          $failure = "Incorrect password";
         }
     }
+  }
 }
 
 // Fall through into the View
@@ -33,7 +39,7 @@ if ( isset($_POST['email']) && isset($_POST['pass']) ) {
 <html>
 <head>
 <?php require_once "pdo.php"; ?>
-<title>Kelly Loyd (f418185d) Login Page</title>
+<title>Kelly Loyd Autos DB - Login (f418185d)</title>
 </head>
 <body>
 <div class="container">
@@ -48,7 +54,7 @@ if ( $failure !== false ) {
 ?>
 <form method="POST">
 <label for="nam">Email Address</label>
-<input type="text" name="email" id="nam"><br/>
+<input type="text" name="who" id="nam"><br/>
 <label for="id_1723">Password</label>
 <input type="password" name="pass" id="id_1723"><br/>
 <input type="submit" value="Log In">

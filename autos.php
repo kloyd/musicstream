@@ -2,10 +2,10 @@
 require_once "pdo.php";
 
 // Demand a GET parameter
-if ( ! isset($_GET['email']) || strlen($_GET['email']) < 1  ) {
+if ( ! isset($_GET['who']) || strlen($_GET['who']) < 1  ) {
     die('Name parameter missing');
 } else {
-  $name = $_GET['email'];
+  $name = $_GET['who'];
 }
 
 // If the user requested logout go back to index.php
@@ -14,7 +14,7 @@ if ( isset($_POST['logout']) ) {
     return;
 }
 
-if ( isset($_POST['make']) && isset($_POST['year']) && isset($_POST['mileage'])) {
+if ( isset($_POST['addnew']) && isset($_POST['make']) && isset($_POST['year']) && isset($_POST['mileage'])) {
   $make = $_POST['make'];
   if (strlen($make) > 1) {
     if (is_numeric($_POST['year']) && is_numeric($_POST['mileage'])) {
@@ -23,13 +23,13 @@ if ( isset($_POST['make']) && isset($_POST['year']) && isset($_POST['mileage']))
       $stmt = $pdo->prepare($sql);
       $stmt->execute(array(
           ':make' => htmlentities($_POST['make']),
-          ':year' => htmlentities($_POST['year']),
+          ':year' => $_POST['year'],
           ':mileage' => $_POST['mileage']));
       } else {
-        echo("Year and Mileage must be numeric.");
+        echo("Mileage and year must be numeric.");
       }
     } else {
-      echo ("Make must be longer than 1 character.");
+      echo ("Make is required.");
     }
 }
 
@@ -44,7 +44,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <html>
 <head>
-<title>Kelly's Automobile Tracker (f418185d)</title>
+<title>Kelly Loyd Automobile Tracker (f418185d)</title>
 </head><body>
   <?php echo("<h1>Tracking Autos for $name</h1>\n"); ?>
 <p>Add A New Auto</p>
@@ -55,7 +55,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <input type="text" name="year"></p>
 <p>Mileage:
 <input type="text" name="mileage"></p>
-<p><input type="submit" value="Add New"/></p>
+<p><input type="submit" value="Add New" name="addnew" /></p>
 </form>
 <table border="1">
 <?php
@@ -75,4 +75,7 @@ foreach ( $rows as $row ) {
 }
 ?>
 </table>
+<form method="post">
+<input type="submit" name="logout" value="Logout">
+</form>
 </body>
