@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Kelly Loyd Autos DB (f418185d)</title>
+<title>Muddys Music Stream Monitor</title>
 <?php require_once "pdo.php"; ?>
 </head>
 <body>
 <div class="container">
-<h1>Welcome to Autos Database.</h1>
+<h1>Welcome to Muddys Music Stream Monitor.</h1>
 
 <p>
 <a href="login.php">Please Log In</a>
