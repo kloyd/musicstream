@@ -13,17 +13,14 @@ $failure = false;  // If we have no POST data
 
 // Check to see if we have some POST data, if we do process it
 if ( isset($_POST['who']) && isset($_POST['pass']) ) {
-  if (strpos($_POST['who'], '@') === false) {
-    $failure = "Email must have an at sign (@).";
-  } else {
-    if ( strlen($_POST['who']) < 1 || strlen($_POST['pass']) < 1 ) {
+  if ( strlen($_POST['who']) < 1 || strlen($_POST['pass']) < 1 ) {
         $failure = "User name and password are required";
     } else {
         $check = hash('md5', $salt.$_POST['pass']);
         if ( $check == $stored_hash ) {
           error_log("Login success ".$_POST['who']);
             // Redirect the browser to autos.php
-            header("Location: autos.php?who=".urlencode($_POST['who']));
+            header("Location: songs.php?who=".urlencode($_POST['who']));
             return;
         } else {
           error_log("Login fail ".$_POST['who']." $check");
@@ -31,7 +28,6 @@ if ( isset($_POST['who']) && isset($_POST['pass']) ) {
         }
     }
   }
-}
 
 // Fall through into the View
 ?>
@@ -39,7 +35,7 @@ if ( isset($_POST['who']) && isset($_POST['pass']) ) {
 <html>
 <head>
 <?php require_once "pdo.php"; ?>
-<title>Kelly Loyd Autos DB - Login (f418185d)</title>
+<title>Muddy's Music Monitor Login</title>
 </head>
 <body>
 <div class="container">
@@ -52,11 +48,9 @@ if ( $failure !== false ) {
     echo('<p style="color: red;">'.htmlentities($failure)."</p>\n");
 }
 ?>
-<?php
-   echo(hash('md5', $salt.'muddys'));
-?>
+
 <form method="POST">
-<label for="nam">Email Address</label>
+<label for="nam">Name</label>
 <input type="text" name="who" id="nam"><br/>
 <label for="id_1723">Password</label>
 <input type="password" name="pass" id="id_1723"><br/>
@@ -64,10 +58,7 @@ if ( $failure !== false ) {
 <input type="submit" name="cancel" value="Cancel">
 </form>
 <p>
-For a password hint, view source and find a password hint
-in the HTML comments.
-<!-- Hint: The password is the four character sound a cat
-makes (all lower case) followed by 123. -->
+email kelly.loyd@icloud.com for information.
 </p>
 </div>
 </body>

@@ -33,44 +33,32 @@ if ( isset($_POST['addnew']) && isset($_POST['make']) && isset($_POST['year']) &
     }
 }
 
-if ( isset($_POST['delete']) && isset($_POST['auto_id']) ) {
-    $sql = "DELETE FROM autos WHERE auto_id = :zip";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(array(':zip' => $_POST['auto_id']));
-}
 
-$stmt = $pdo->query("SELECT make, year, mileage, auto_id FROM autos");
+date_default_timezone_set('America/Chicago');
+$lasthour = date('Y-m-d H:i', time() - 3600);
+
+$stmt = $pdo->query("SELECT time, title from song where time > '{$lasthour}' order by time desc");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <html>
 <head>
-<title>Kelly Loyd Automobile Tracker (f418185d)</title>
+<title>Muddys Song List</title>
 </head><body>
-  <?php echo("<h1>Tracking Autos for $name</h1>\n"); ?>
-<p>Add A New Auto</p>
-<form method="post">
-<p>Make:
-<input type="text" name="make" size="40"></p>
-<p>Year:
-<input type="text" name="year"></p>
-<p>Mileage:
-<input type="text" name="mileage"></p>
-<p><input type="submit" value="Add New" name="addnew" /></p>
-</form>
+  <?php echo("<h1>Music for $name</h1>\n");
+  echo 'Last hour: '. $lasthour ."\n";
+  ?>
 <table border="1">
 <?php
 foreach ( $rows as $row ) {
     echo "<tr><td>";
-    echo($row['make']);
+    echo($row['time']);
     echo("</td><td>");
-    echo($row['year']);
+    echo($row['title']);
     echo("</td><td>");
-    echo($row['mileage']);
-    echo("</td><td>");
-    echo('<form method="post"><input type="hidden" ');
-    echo('name="auto_id" value="'.$row['auto_id'].'">'."\n");
-    echo('<input type="submit" value="Del" name="delete">');
-    echo("\n</form>\n");
+    # echo('<form method="post"><input type="hidden" ');
+    # echo('name="auto_id" value="'.$row['auto_id'].'">'."\n");
+    # echo('<input type="submit" value="Del" name="delete">');
+    # echo("\n</form>\n");
     echo("</td></tr>\n");
 }
 ?>
