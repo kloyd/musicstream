@@ -7,7 +7,7 @@ if ( isset($_POST['cancel'] ) ) {
 }
 
 $salt = 'XyZzy12*_';
-$stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';  // Pw is php123
+$stored_hash = '261acb4a64579e104ddbcd9281511aee';  // Pw is muddys
 
 $failure = false;  // If we have no POST data
 
@@ -51,6 +51,9 @@ if ( $failure !== false ) {
     // Look closely at the use of single and double quotes
     echo('<p style="color: red;">'.htmlentities($failure)."</p>\n");
 }
+?>
+<?php
+   echo(hash('md5', $salt.'muddys'));
 ?>
 <form method="POST">
 <label for="nam">Email Address</label>

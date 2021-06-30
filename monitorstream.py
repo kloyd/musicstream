@@ -5,6 +5,24 @@ from requests.exceptions import RequestException
 from datetime import datetime
 from bs4 import BeautifulSoup
 import re
+from datetime import date, datetime, timedelta
+import mysql.connector
+from mysql.connector import Error
+
+def write_song_to_db(timestring, song_title):
+    add_song = ("INSERT INTO song (time, title) values (%s, %s) ")
+    cnx = mysql.connector.connect(user='stream', password='pickles', database='songs')
+    cursor = cnx.cursor()
+
+    data_song = (timestring, song_title)
+    cursor.execute(add_song, data_song)
+    
+    # Make sure data is committed to the database
+    cnx.commit()
+    
+    cursor.close()
+    cnx.close()
+
 
 def print_song_title():
     # api endpoint 20398
@@ -55,6 +73,7 @@ while True:
         timestamp = datetime.now()
         timestring = timestamp.strftime("%b-%d-%Y (%H:%M:%S)")
         print(timestring, song_title)
+        write_song_to_db(timestamp, song_title)
         print(timestring, song_title, sep=' ', end='\n', file=output_file, flush=True)
 
 
