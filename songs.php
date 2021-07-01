@@ -54,12 +54,13 @@ foreach ( $rows as $row ) {
     echo($row['time']);
     echo("</td><td>");
     echo($row['title']);
-    echo("</td><td>");
+    echo("</td></tr>\n");
+    #echo("</td><td>");
     # echo('<form method="post"><input type="hidden" ');
     # echo('name="auto_id" value="'.$row['auto_id'].'">'."\n");
     # echo('<input type="submit" value="Del" name="delete">');
     # echo("\n</form>\n");
-    echo("</td></tr>\n");
+    #echo("</td></tr>\n");
 }
 ?>
 </table>
