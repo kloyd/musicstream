@@ -14,7 +14,8 @@ def write_song_to_db(timestring, song_title):
     cnx = mysql.connector.connect(user='stream', password='pickles', database='songs')
     cursor = cnx.cursor()
 
-    data_song = (timestring, song_title)
+    trunc_title = song_title[0:254]
+    data_song = (timestring, trunc_title)
     cursor.execute(add_song, data_song)
     
     # Make sure data is committed to the database
